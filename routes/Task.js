@@ -1,0 +1,71 @@
+var exp=require('express');
+var router=exp.Router();
+var Task=require('../models/task_model');
+
+router.get('/:id?',function(req,res,next){
+    
+    if(!req.params.id)
+{
+          Task.getAllTask(function(rows,error){
+            if(error)
+            {
+                res.json(error);
+            }
+            else
+            {
+                res.json(rows);
+            }
+    });
+}
+else
+{
+    Task.getTaskById(req.params.id,function(rows,error){
+            if(error)
+            {
+                res.json(error);
+            }
+            else
+            {
+                res.json(rows);
+            }
+    });
+}
+
+});
+router.post('',function(req,res,next){
+    Task.addTask(req.body,function(rows,error){
+            if(error)
+            {
+                res.json(error);
+            }
+            else
+            {
+                res.json(rows);
+            }
+    });
+});
+router.put('/:id',function(req,res,next){
+    Task.updateTaskById(req.params.id,req.body,function(rows,error){
+            if(error)
+            {
+                res.json(error);
+            }
+            else
+            {
+                res.json(rows);
+            }
+    });
+});
+router.delete('/:id',function(req,res,next){
+    Task.deleteTask(req.params.id,function(rows,error){
+            if(error)
+            {
+                res.json(error);
+            }
+            else
+            {
+                res.json(rows);
+            }
+    });
+});
+module.exports=router;
